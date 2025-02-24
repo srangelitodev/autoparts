@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refaccionaría Leo</title>
+  <link rel="stylesheet" th:href="@{/css/global.css}">
+  <link rel="stylesheet" th:href="@{/css/load-file.css}">
+
+</head>
+<body>
+  <div th:replace="fragments :: header"></div>
+  <main>
+    <div class="content">
+      <h1>Cargar Datos De Productos Desde Un Excel</h1>
+      <p>Selecciona el archivo Excel (.xlsx) que deseas cargar:</p>
+      <form action="#" method="post" enctype="multipart/form-data">
+        <input type="file" id="excelFile" name="excelFile" accept=".xlsx" required>
+        <br><br>
+        <button type="submit">Cargar</button>
+      </form>
+    </div>
+  </main>
+</body>
+</html>
