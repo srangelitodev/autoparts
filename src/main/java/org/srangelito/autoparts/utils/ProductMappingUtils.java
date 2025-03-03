@@ -1,4 +1,4 @@
-package org.srangelito.autoparts.utils.excel;
+package org.srangelito.autoparts.utils;
 
 import org.srangelito.autoparts.dto.ProductDto;
 import org.srangelito.autoparts.entity.ProductEntity;

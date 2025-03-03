@@ -1,0 +1,26 @@
+select {
+    margin-top: 30px;
+    width: 30%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #999;
+    border-radius: var(--border-radius);
+    text-align: center;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-size: 16px;
+    appearance: none;
+    box-shadow: var(--box-shadow);
+}
+
+select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+select option {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 10px;
+}

@@ -4,10 +4,120 @@
     <meta charset="UTF-8">
     <title>Refaccionaría Leo</title>
     <link rel="stylesheet" th:href="@{/css/global.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/table.css}">
+    <link rel="stylesheet" th:href="@{/css/message.css}">
+    <link rel="stylesheet" th:href="@{/css/combo-box.css}">
 
+    <script>
+        function toggleForms() {
+            const action = document.getElementById('action').value;
+            const addForm = document.getElementById('addForm');
+            const deleteForm = document.getElementById('deleteForm');
+
+            if (action === 'upsert') {
+                addForm.style.display = 'block';
+                deleteForm.style.display = 'none';
+            }
+            else if (action === 'delete') {
+                addForm.style.display = 'none';
+                deleteForm.style.display = 'block';
+            }
+            else {
+                addForm.style.display = 'none';
+                deleteForm.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
-    <div th:replace="fragments :: header"></div>
-    <div th:replace="fragments :: product-actions"></div>
+<div th:replace="fragments :: header"></div>
+
+<div style="text-align: center;">
+    <select id="action" name="action" onchange="toggleForms()">
+        <option value="search">Solo Buscar</option>
+        <option value="upsert">Agregar / Modificar</option>
+        <option value="delete">Eliminar</option>
+    </select>
+</div>
+
+<div style="text-align: center;">
+    <form th:action="@{/menu/product/search-by-number}" th:method="get" style="display: inline-block; margin-right: 10px;">
+        <label for="partNumber_searchByPartNumberForm">Número:</label>
+        <input type="text" id="partNumber_searchByPartNumberForm" name="partNumber_searchByPartNumberForm" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <form th:action="@{/menu/product/search-by-application}" th:method="get" style="display: inline-block;">
+        <label for="application_searchByApplicationForm">Aplicación:</label>
+        <input type="text" id="application_searchByApplicationForm" name="application_searchByApplicationForm" required>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div id="addForm" style="display: none; margin-top: -60px">
+    <form th:action="@{/menu}" th:method="get">
+        <label for="quantity_addForm">Cantidad:</label>
+        <input type="number" id="quantity_addForm" name="quantity_addForm" required>
+
+        <label for="partNumber_addForm">Número:</label>
+        <input type="text" id="partNumber_addForm" name="partNumber_addForm" required>
+
+        <label for="application_addForm">Aplicación:</label>
+        <input type="text" id="application_addForm" name="application_addForm" required>
+
+        <label for="price_addForm">Precio:</label>
+        <input type="number" id="price_addForm" name="price_addForm" required step="0.01">
+
+        <label for="public_addForm">Público:</label>
+        <input type="number" id="public_addForm" name="public_addForm" required>
+
+        <button type="submit">Agregar / Modificar</button>
+    </form>
+</div>
+
+<div id="deleteForm" style="display: none; margin-top: -60px">
+    <form action="resultado.html" method="GET">
+        <label for="partNumber_deleteForm">Número:</label>
+        <input type="text" id="partNumber_deleteForm" name="partNumber_deleteForm" required>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<div style="text-align: center;" th:if="${messageContent != null}" th:class="${messageContent != null and messageContent.contains('Error') ? 'error-message' : 'success-message'}">
+    <label th:text="${messageContent} ?: ''"></label>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Cantidad</th>
+        <th>Número</th>
+        <th>Aplicación</th>
+        <th>Precio</th>
+        <th>Público</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.partNumber}"></td>
+        <td th:text="${product.application}"></td>
+        <td th:text="${product.publicPrice}"></td>
+        <td th:text="${product.privatePrice}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${productsPage != null}">
+    <span th:if="${productsPage.hasPrevious()}">
+        <a th:href="@{/menu/product/search-by-number(page=${productsPage.number - 1})}" th:method="get">Anterior</a>
+    </span>
+    <span th:if="${productsPage.hasNext()}">
+        <a th:href="@{/menu/product/search-by-number(page=${productsPage.number + 1})}" th:method="get">Siguiente</a>
+    </span>
+    <p> Página <span th:text="${productsPage.number + 1}"></span> de <span th:text="${productsPage.totalPages}"></span> </p>
+</div>
+
 </body>
 </html>

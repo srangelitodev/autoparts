@@ -1,4 +1,4 @@
-package org.srangelito.autoparts.utils.excel;
+package org.srangelito.autoparts.utils;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;

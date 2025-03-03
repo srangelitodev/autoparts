@@ -10,8 +10,8 @@ import jakarta.persistence.Table;
 public class ProductEntity {
 
     private Short quantity;
-    @Column (name = "part_number")
     @Id
+    @Column (name = "part_number")
     private String partNumber;
     private String application;
     @Column (name = "private_price")
