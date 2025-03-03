@@ -94,7 +94,7 @@ public final class ExcelUtils {
                 return mappingColumnsAttributes;
         }
 
-        throw new MissingAttributeColumnsException("The map size is invalid");
+        throw new MissingAttributeColumnsException("Some attribute columns are missing in the Excel file.");
     }
 
     public static ArrayList<ProductEntity> getProducts (XSSFSheet xssfSheet, int sheetTitleRowIndex, Map<String, Integer> helperMap) {

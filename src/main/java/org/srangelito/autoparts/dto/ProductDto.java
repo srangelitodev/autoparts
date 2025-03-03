@@ -1,28 +1,16 @@
-package org.srangelito.autoparts.entity;
+package org.srangelito.autoparts.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table (name = "product")
-public class ProductEntity {
+public class ProductDto {
 
     private Short quantity;
-    @Column (name = "part_number")
-    @Id
     private String partNumber;
     private String application;
-    @Column (name = "private_price")
     private Float privatePrice;
-    @Column (name = "public_price")
     private Float publicPrice;
 
-    public ProductEntity() {
-    }
-
-    public ProductEntity(Short quantity, String partNumber, String application, Float privatePrice, Float publicPrice) {
+    public ProductDto(Short quantity, String partNumber, String application, Float privatePrice, Float publicPrice) {
         this.quantity = quantity;
         this.partNumber = partNumber;
         this.application = application;
@@ -69,5 +57,4 @@ public class ProductEntity {
     public void setPublicPrice(Float publicPrice) {
         this.publicPrice = publicPrice;
     }
-
 }

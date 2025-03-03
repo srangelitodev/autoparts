@@ -1,0 +1,57 @@
+table {
+    width: 80%;
+    margin: 50px auto;
+    border-collapse: collapse;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    font-family: 'Poppins', sans-serif;
+}
+
+table th, table td {
+    padding: 12px 20px;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+table th {
+    background-color: var(--primary-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+table tr:nth-child(odd) {
+    background-color: var(--menu-actions-color);
+}
+
+table tr:nth-child(even) {
+    background-color: var(--menu-actions-color);
+}
+
+table tr:hover {
+    background-color: var(--menu-actions-hover-color);
+    transform: scale(1.02);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+table th:nth-child(1), table td:nth-child(1) {
+    width: 10%;
+}
+
+table th:nth-child(2), table td:nth-child(2) {
+    width: 10%;
+}
+
+table th:nth-child(3), table td:nth-child(3) {
+    width: 40%;
+}
+
+table th:nth-child(4), table td:nth-child(4) {
+    width: 20%;
+}
+
+table th:nth-child(5), table td:nth-child(5) {
+    width: 20%;
+}

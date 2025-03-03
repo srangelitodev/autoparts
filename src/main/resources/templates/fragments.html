@@ -1,11 +1,21 @@
 <div th:fragment="header">
     <header>
-        <nav class="navbar">
+        <nav class="menu">
             <ul>
-                <li><a th:href="@{/menu/products}">Productos</a></li>
-                <li><a th:href="@{/menu/sells}">Faltante</a></li>
+                <li><a th:href="@{/menu/product}">Productos</a></li>
+                <li><a th:href="@{/menu/sell}">Faltante</a></li>
                 <li><a th:href="@{/menu/data_load}">Cargar Datos</a></li>
             </ul>
         </nav>
     </header>
+</div>
+
+<div th:fragment="product-actions">
+    <nav class="menu-actions">
+        <ul>
+            <li><a th:href="@{/menu/product/search}">Buscar</a></li>
+            <li><a th:href="@{/menu/product/upsert}">Agregar / Modificar</a></li>
+            <li><a th:href="@{/menu/product/delete}">Eliminar</a></li>
+        </ul>
+    </nav>
 </div>
