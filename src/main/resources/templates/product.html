@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/table.css}">
     <link rel="stylesheet" th:href="@{/css/message.css}">
     <link rel="stylesheet" th:href="@{/css/combo-box.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
 
     <script>
         function toggleForms() {
@@ -43,14 +44,14 @@
 
 <div style="text-align: center;">
     <form th:action="@{/menu/product/search-by-number}" th:method="get" style="display: inline-block; margin-right: 10px;">
-        <label for="partNumber_searchByPartNumberForm">Número:</label>
-        <input type="text" id="partNumber_searchByPartNumberForm" name="partNumber_searchByPartNumberForm" required>
+        <label for="partNumber">Número:</label>
+        <input type="text" id="partNumber" name="partNumber" required>
         <button type="submit">Buscar</button>
     </form>
 
     <form th:action="@{/menu/product/search-by-application}" th:method="get" style="display: inline-block;">
-        <label for="application_searchByApplicationForm">Aplicación:</label>
-        <input type="text" id="application_searchByApplicationForm" name="application_searchByApplicationForm" required>
+        <label for="application">Aplicación:</label>
+        <input type="text" id="application" name="application" required>
         <button type="submit">Buscar</button>
     </form>
 </div>
@@ -109,15 +110,16 @@
     </tbody>
 </table>
 
-<div th:if="${productsPage != null}">
-    <span th:if="${productsPage.hasPrevious()}">
-        <a th:href="@{/menu/product/search-by-number(page=${productsPage.number - 1})}" th:method="get">Anterior</a>
-    </span>
-    <span th:if="${productsPage.hasNext()}">
-        <a th:href="@{/menu/product/search-by-number(page=${productsPage.number + 1})}" th:method="get">Siguiente</a>
-    </span>
-    <p> Página <span th:text="${productsPage.number + 1}"></span> de <span th:text="${productsPage.totalPages}"></span> </p>
+<div class="pagination-container" th:if="${productsPage != null}">
+    <div class="pagination-buttons">
+        <span th:if="${productsPage.hasPrevious()}">
+            <a th:href="@{/menu/product/previous(page=${productsPage.number - 1})}" th:method="get">Anterior</a>
+        </span>
+        <span th:if="${productsPage.hasNext()}">
+            <a th:href="@{/menu/product/next(page=${productsPage.number + 1})}" th:method="get">Siguiente</a>
+        </span>
+    </div>
+    <p>Página <span th:text="${productsPage.number + 1}"></span> de <span th:text="${productsPage.totalPages}"></span></p>
 </div>
-
 </body>
 </html>

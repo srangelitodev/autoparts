@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.srangelito.autoparts.dto.ProductDto;
 import org.srangelito.autoparts.entity.ProductEntity;
+import org.srangelito.autoparts.enums.SearchOption;
 import org.srangelito.autoparts.service.ProductService;
 import org.srangelito.autoparts.utils.ProductMappingUtils;
 
@@ -18,6 +19,8 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private String lastStringSearch;
+    private SearchOption lastSearchOption;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -44,14 +47,12 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping ("/menu/product/search-by-number")
-    public String searchProductByPartNumber (@RequestParam (name = "page", defaultValue = "0") int page, @RequestParam (name = "partNumber_searchByPartNumberForm") String partNumber, Model model) {
-        Page<ProductEntity> productPage = productService.searchProductsByPartNumber(partNumber, page);
+    private String showProducts (Page<ProductEntity> productsPage, Model model) {
         List<ProductEntity> productsEntities;
         List<ProductDto> productDtos = new ArrayList<>();
 
-        if (productPage.hasContent())
-            productsEntities = productPage.getContent();
+        if (productsPage.hasContent())
+            productsEntities = productsPage.getContent();
         else {
             model.addAttribute("messageContent", "Error: No se han encontrado coincidencias.");
             return "product";
@@ -61,16 +62,36 @@ public class ProductController {
             productDtos.add(ProductMappingUtils.entityToDto(product));
 
         model.addAttribute("products", productDtos);
-        model.addAttribute("productsPage", productPage);
+        model.addAttribute("productsPage", productsPage);
         return "product";
     }
 
-//    @PostMapping ("/menu/product/search-by-application")
-//    public String searchProductByApplication (@RequestParam(name = "application") String application, Model model) {
-//        List<ProductDto> productDtos = productService.searchProductsByApplication(application,0);
-//        model.addAttribute("products", productDtos);
-//
-//        return "product-search";
-//    }
+    @GetMapping ("/menu/product/search-by-number")
+    public String searchProductsByPartNumber (@RequestParam (name = "partNumber") String partNumber, Model model) {
+        this.lastStringSearch = partNumber;
+        this.lastSearchOption = SearchOption.PART_NUMBER;
+        Page<ProductEntity> productsPage = productService.searchProductsByPartNumber(partNumber, 0);
+        return showProducts(productsPage, model);
+    }
+
+    @GetMapping ("/menu/product/search-by-application")
+    public String searchProductsByApplication (@RequestParam (name = "application") String application, Model model) {
+        this.lastStringSearch = application;
+        this.lastSearchOption = SearchOption.APPLICATION;
+        Page<ProductEntity> productsPage = productService.searchProductsByApplication(application, 0);
+        return showProducts(productsPage, model);
+    }
+
+    @GetMapping ("/menu/product/next")
+    public String nextProductsPage (@RequestParam (name = "page") int pageNumber, Model model) {
+        Page<ProductEntity> productsPage = productService.searchProductsBySearchOption(this.lastSearchOption, this.lastStringSearch, pageNumber);
+        return showProducts(productsPage, model);
+    }
+
+    @GetMapping ("/menu/product/previous")
+    public String previousProductsPage (@RequestParam (name = "page") int pageNumber, Model model) {
+        Page<ProductEntity> productsPage = productService.searchProductsBySearchOption(this.lastSearchOption, this.lastStringSearch, pageNumber);
+        return showProducts(productsPage, model);
+    }
 
 }
