@@ -50,6 +50,14 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void deleteProduct(String partNumber) {
+        productRepository.deleteById(partNumber);
+    }
+
+    public boolean productExistsByPartNumber(String partNumber) {
+        return productRepository.existsById(partNumber);
+    }
+
     public List<ProductDto> entitiesToDtos(List<ProductEntity> productsEntities) {
         List<ProductDto> productDtos = new ArrayList<>();
 

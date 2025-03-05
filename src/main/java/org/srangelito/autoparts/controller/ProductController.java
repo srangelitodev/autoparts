@@ -114,4 +114,16 @@ public class ProductController {
         return "product";
     }
 
+    @PostMapping ("/menu/product/delete")
+    public String deleteProduct (@RequestParam (name = "partNumber_deleteForm") String partNumber, Model model) {
+        if (productService.productExistsByPartNumber(partNumber)) {
+            productService.deleteProduct(partNumber);
+            model.addAttribute("messageContent", "Se ha eliminado el producto correctamente.");
+            return "product";
+        }
+
+        model.addAttribute("messageContent", "Error: el número de parte que se intenta eliminar no existe.");
+        return "product";
+    }
+
 }

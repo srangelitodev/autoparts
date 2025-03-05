@@ -39,7 +39,7 @@
 
 .pagination-container p {
     color: var(--primary-color);
-    font-size: 18px;
+    font-size: 8px;
     font-weight: normal;
     margin-top: 10px;
 }
