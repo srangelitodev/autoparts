@@ -1,0 +1,47 @@
+[33mcommit 12c21ab234ed4fd7f923a29f64686c4e6c64600b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Tue Mar 4 00:17:54 2025 -0600
+
+    Se resolvió el error en la paginación, se añadieron estilos específicos para la misma, se creó una clase enumerable con las distintas opciones de búsqueda del producto y se sobrescribieron algunos métodos para mejorar la legibilidad del código.
+
+[33mcommit a93aaf4a0f2a971fd6b346ad44e3c144ec743125[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Mon Mar 3 09:38:14 2025 -0600
+
+    Se modificó la interfaz del producto, simplificándola con una estructura más eficiente. Además, se agregaron estilos a los cuadros combinados (combo boxes) para la selección de acciones y se implementó parcialmente la paginación, aunque aún quedan errores por corregir.
+
+[33mcommit e40e1530a2879adae2405cf2df6d3a33696b112e[m[33m ([m[1;33mtag: [m[1;33mv0.5.1[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Mon Mar 3 09:35:10 2025 -0600
+
+    Se modificó la interfaz del producto, simplificándola con una estructura más eficiente. Además, se agregaron estilos a los cuadros combinados (combo boxes) para la selección de acciones y se implementó parcialmente la paginación, aunque aún quedan errores por corregir.
+
+[33mcommit a8f3dc424d5c3b9e18145e8830cf0f87751a384a[m[33m ([m[1;33mtag: [m[1;33mv0.5.0[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Sun Mar 2 21:44:53 2025 -0600
+
+    Se realizaron diversos cambios importantes, incluyendo la incorporación de múltiples rutas MVC para las operaciones relacionadas con los productos. Se actualizaron los estilos y se añadieron las clases ProductRepository, ProductService, ProductDto y ProductController, con el objetivo de mantener la modularidad del proyecto. Sin embargo, aún no se han implementado todas las funcionalidades básicas del producto y está pendiente la implementación de la paginación.
+
+[33mcommit 9f4fd9009424801acc7b9c104b92705c56aa281d[m[33m ([m[1;33mtag: [m[1;33mv0.3.0[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Mon Feb 24 20:28:15 2025 -0600
+
+    Se implementaron los métodos necesarios para la lectura de archivos Excel, se añadieron diversas excepciones relacionadas con su uso y se abstrajeron mediante la creación de la clase base ExcelFormatException.
+
+[33mcommit bb1a796d23b158ea13d2267b3daec90957405bb2[m[33m ([m[1;33mtag: [m[1;33mv0.2.0[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Mon Feb 24 05:13:20 2025 -0600
+
+    Se añadieron algunas excepciones para el manejo de Excel, así como varios métodos de utilidad relacionados con este.
+
+[33mcommit 032ba7b6f319a66aa73d1b02c0e4cf62dcae7a03[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Mon Feb 24 03:37:04 2025 -0600
+
+     Agregadas vistas básicas (Productos, Faltantes/Ventas y Carga de Datos desde Excel) con estilos, sin lógica de negocio.
+
+[33mcommit 4ae3cea8ac8d3f004fff2619d301b8a82fffb3f0[m[33m ([m[1;33mtag: [m[1;33minitial-commit[m[33m)[m
+Author: Angel Axel Leon Arreola <angel.axel.leon.arreola@gmail.com>
+Date:   Sun Feb 23 23:09:43 2025 -0600
+
+    Se agregaron las dependencias necesarias usando el inicializador de Spring para Spring Web y Thymeleaf. Además, se incluyeron las dependencias requeridas para Apache POI y el manejo de archivos XLSX.

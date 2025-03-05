@@ -5,12 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.srangelito.autoparts.dto.ProductDto;
 import org.srangelito.autoparts.entity.ProductEntity;
-import org.srangelito.autoparts.enums.SearchOption;
+import org.srangelito.autoparts.enumerable.SearchOption;
+import org.srangelito.autoparts.repository.ProductRepository;
 import org.srangelito.autoparts.service.ProductService;
-import org.srangelito.autoparts.utils.ProductMappingUtils;
+import org.srangelito.autoparts.util.ProductMappingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +25,13 @@ public class ProductController {
     private SearchOption lastSearchOption;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
     }
 
     @GetMapping ("/menu/product")
     public String showProductPage () {
         return "product";
-    }
-
-    @GetMapping ("/menu/product/upsert")
-    public String upsertProduct () {
-        return "product-upsert";
     }
 
     @GetMapping ("/menu/product/search")
@@ -49,7 +46,7 @@ public class ProductController {
 
     private String showProducts (Page<ProductEntity> productsPage, Model model) {
         List<ProductEntity> productsEntities;
-        List<ProductDto> productDtos = new ArrayList<>();
+        List<ProductDto> productDtos;
 
         if (productsPage.hasContent())
             productsEntities = productsPage.getContent();
@@ -58,8 +55,7 @@ public class ProductController {
             return "product";
         }
 
-        for (ProductEntity product : productsEntities)
-            productDtos.add(ProductMappingUtils.entityToDto(product));
+        productDtos = productService.entitiesToDtos(productsEntities);
 
         model.addAttribute("products", productDtos);
         model.addAttribute("productsPage", productsPage);
@@ -67,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping ("/menu/product/search-by-number")
-    public String searchProductsByPartNumber (@RequestParam (name = "partNumber") String partNumber, Model model) {
+    public String searchProductsByPartNumber (@RequestParam (name = "partNumber_searchForm") String partNumber, Model model) {
         this.lastStringSearch = partNumber;
         this.lastSearchOption = SearchOption.PART_NUMBER;
         Page<ProductEntity> productsPage = productService.searchProductsByPartNumber(partNumber, 0);
@@ -75,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping ("/menu/product/search-by-application")
-    public String searchProductsByApplication (@RequestParam (name = "application") String application, Model model) {
+    public String searchProductsByApplication (@RequestParam (name = "application_searchForm") String application, Model model) {
         this.lastStringSearch = application;
         this.lastSearchOption = SearchOption.APPLICATION;
         Page<ProductEntity> productsPage = productService.searchProductsByApplication(application, 0);
@@ -85,13 +81,37 @@ public class ProductController {
     @GetMapping ("/menu/product/next")
     public String nextProductsPage (@RequestParam (name = "page") int pageNumber, Model model) {
         Page<ProductEntity> productsPage = productService.searchProductsBySearchOption(this.lastSearchOption, this.lastStringSearch, pageNumber);
-        return showProducts(productsPage, model);
+
+        if (productsPage.hasContent())
+            return showProducts(productsPage, model);
+
+        model.addAttribute("messageContent", "Error: La página ya no está disponible debido a una modificación reciente.");
+        return "product";
     }
 
     @GetMapping ("/menu/product/previous")
     public String previousProductsPage (@RequestParam (name = "page") int pageNumber, Model model) {
         Page<ProductEntity> productsPage = productService.searchProductsBySearchOption(this.lastSearchOption, this.lastStringSearch, pageNumber);
-        return showProducts(productsPage, model);
+
+        if (productsPage.hasContent())
+            return showProducts(productsPage, model);
+
+        model.addAttribute("messageContent", "Error: La página ya no está disponible debido a una modificación reciente.");
+        return "product";
+    }
+
+    @PostMapping("/menu/product/upsert")
+    public String upsertProduct (
+    @RequestParam (name = "quantity_upsertForm") Short quantity,
+    @RequestParam (name = "partNumber_upsertForm") String partNumber,
+    @RequestParam (name = "application_upsertForm") String application,
+    @RequestParam (name = "price_upsertForm") Float privatePrice,
+    @RequestParam (name = "public_upsertForm") Float publicPrice,
+    Model model) {
+        ProductEntity productEntity = new ProductEntity(quantity, partNumber, application, privatePrice, publicPrice);
+        productService.upsertProduct(productEntity);
+        model.addAttribute("messageContent", "Operación realizada con éxito.");
+        return "product";
     }
 
 }

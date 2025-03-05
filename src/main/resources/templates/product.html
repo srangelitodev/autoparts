@@ -13,7 +13,7 @@
     <script>
         function toggleForms() {
             const action = document.getElementById('action').value;
-            const addForm = document.getElementById('addForm');
+            const addForm = document.getElementById('upsertForm');
             const deleteForm = document.getElementById('deleteForm');
 
             if (action === 'upsert') {
@@ -29,6 +29,25 @@
                 deleteForm.style.display = 'none';
             }
         }
+
+        function fillUpsertForm(event) {
+            const upsertForm = document.getElementById('upsertForm');
+            if (upsertForm.style.display === 'none') return;
+
+            const row = event.target.closest('tr');
+            if (!row || row.parentElement.tagName === 'THEAD') return;
+
+            const cells = row.getElementsByTagName('td');
+            document.getElementById('quantity_upsertForm').value = cells[0].textContent;
+            document.getElementById('partNumber_upsertForm').value = cells[1].textContent;
+            document.getElementById('application_upsertForm').value = cells[2].textContent;
+            document.getElementById('price_upsertForm').value = cells[3].textContent;
+            document.getElementById('public_upsertForm').value = cells[4].textContent;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('tbody').addEventListener('click', fillUpsertForm);
+        });
     </script>
 </head>
 <body>
@@ -44,34 +63,34 @@
 
 <div style="text-align: center;">
     <form th:action="@{/menu/product/search-by-number}" th:method="get" style="display: inline-block; margin-right: 10px;">
-        <label for="partNumber">Número:</label>
-        <input type="text" id="partNumber" name="partNumber" required>
+        <label for="partNumber_searchForm">Número:</label>
+        <input type="text" id="partNumber_searchForm" name="partNumber_searchForm" required>
         <button type="submit">Buscar</button>
     </form>
 
     <form th:action="@{/menu/product/search-by-application}" th:method="get" style="display: inline-block;">
-        <label for="application">Aplicación:</label>
-        <input type="text" id="application" name="application" required>
+        <label for="application_searchForm">Aplicación:</label>
+        <input type="text" id="application_searchForm" name="application_searchForm" required>
         <button type="submit">Buscar</button>
     </form>
 </div>
 
-<div id="addForm" style="display: none; margin-top: -60px">
-    <form th:action="@{/menu}" th:method="get">
-        <label for="quantity_addForm">Cantidad:</label>
-        <input type="number" id="quantity_addForm" name="quantity_addForm" required>
+<div id="upsertForm" style="display: none; margin-top: -60px">
+    <form th:action="@{/menu/product/upsert}" th:method="post">
+        <label for="quantity_upsertForm">Cantidad:</label>
+        <input type="number" id="quantity_upsertForm" name="quantity_upsertForm" required>
 
-        <label for="partNumber_addForm">Número:</label>
-        <input type="text" id="partNumber_addForm" name="partNumber_addForm" required>
+        <label for="partNumber_upsertForm">Número:</label>
+        <input type="text" id="partNumber_upsertForm" name="partNumber_upsertForm" required>
 
-        <label for="application_addForm">Aplicación:</label>
-        <input type="text" id="application_addForm" name="application_addForm" required>
+        <label for="application_upsertForm">Aplicación:</label>
+        <input type="text" id="application_upsertForm" name="application_upsertForm" required>
 
-        <label for="price_addForm">Precio:</label>
-        <input type="number" id="price_addForm" name="price_addForm" required step="0.01">
+        <label for="price_upsertForm">Precio:</label>
+        <input type="number" id="price_upsertForm" name="price_upsertForm" required step="0.01">
 
-        <label for="public_addForm">Público:</label>
-        <input type="number" id="public_addForm" name="public_addForm" required>
+        <label for="public_upsertForm">Público:</label>
+        <input type="number" id="public_upsertForm" name="public_upsertForm" required step="0.01">
 
         <button type="submit">Agregar / Modificar</button>
     </form>
@@ -104,8 +123,8 @@
         <td th:text="${product.quantity}"></td>
         <td th:text="${product.partNumber}"></td>
         <td th:text="${product.application}"></td>
-        <td th:text="${product.publicPrice}"></td>
         <td th:text="${product.privatePrice}"></td>
+        <td th:text="${product.publicPrice}"></td>
     </tr>
     </tbody>
 </table>
